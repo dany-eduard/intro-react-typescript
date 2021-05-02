@@ -7,10 +7,10 @@ import './App.css';
 function App() {
   return (
     <Router>
-      <Route path="/">
+      <Route exact path="/">
         <Home />
       </Route>
-      <Route path="/user-detail/:userid">
+      <Route path="/user-detail/:userId">
         <UserDetail />
       </Route>
     </Router>
