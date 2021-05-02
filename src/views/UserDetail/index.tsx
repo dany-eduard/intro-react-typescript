@@ -15,7 +15,7 @@ const UserDetail = () => {
     (async function () {
       await getUserDetail(userId);
     })();
-  }, []);
+  }, [userId, getUserDetail]);
 
   return (
     <div>
