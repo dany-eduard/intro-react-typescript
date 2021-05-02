@@ -1,30 +1,33 @@
-import React, { useEffect, useState } from "react";
-import useMyStore from "../../store";
+import React, { useEffect } from 'react';
+import useMyStore from '../../store';
+import UserItem from '../../components/UserItem';
+const useStore = useMyStore;
 
-const fakeUsers: object = [{ id: 1, name: "Daniel", lastName: "Almagro", age: 20 }];
-
-type HomeProps = {
-  id?: number | string;
-  loginStatus?: string | undefined;
-};
-
-const Home: React.FC<HomeProps> = ({ id, loginStatus }) => {
-  const [users, setUsers] = useState<object>(fakeUsers);
-  const [loading, setLoading] = useState<boolean>(true);
-  const useStore = useMyStore;
-  const users2 = useStore(state => state.users);
-  const getUsers: any = useStore(state => state.getUsers);
+const Home: React.FC<{}> = () => {
+  const users = useStore((state) => state.users);
+  console.log(users);
+  const getUsers = useStore((state) => state.getUsers);
+  const loading = useStore((state) => state.loading);
 
   useEffect(() => {
-    (async function(): Promise<void> {
+    (async function (): Promise<void> {
       await getUsers();
-    })()
-  }, []);
+    })();
+  }, [getUsers]);
+
+  const renderUsers = (): undefined | JSX.Element[] | string => {
+    if (users) {
+      return users.map((user: any, index: number) => <UserItem key={index} {...user} />);
+    } else if (loading) {
+      return 'Cargando';
+    }
+  };
 
   return (
     <div>
-      <h1>Home</h1>
-      {loading && "Cargando..."}
+      <h1>Inicio</h1>
+      {loading && 'Cargando...'}
+      {renderUsers()}
     </div>
   );
 };
